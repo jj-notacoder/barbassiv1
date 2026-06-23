@@ -17,6 +17,19 @@
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
+  <!-- =========================================================================
+       Preloader Overlay (GSAP Entry Choreography)
+       ========================================================================= -->
+  <div id="preloader">
+    <div class="preloader-logo-wrap">
+      <!-- Temporary SVG using text path for 'Barbassi' until logo.svg is provided -->
+      <svg id="preloader-svg" viewBox="0 0 400 120" xmlns="http://www.w3.org/2000/svg">
+        <text class="draw-text" x="50%" y="60%" text-anchor="middle" font-family="Clarendon, serif" font-size="64" font-weight="bold" fill="transparent" stroke="#FDFBEE" stroke-width="1.5">Barbassi</text>
+      </svg>
+    </div>
+    <p class="preloader-status">Preparing...</p>
+  </div>
+
   <!-- Warm paper grain over the whole page -->
   <div class="grain" aria-hidden="true"></div>
 

@@ -67,6 +67,52 @@ html[dir="rtl"] .address { font-family: var(--font-ar); }
 }
 
 /* =========================================================================
+   Preloader (GSAP Entry Choreography)
+   ========================================================================= */
+#preloader {
+  position: fixed;
+  inset: 0;
+  background-color: var(--navy);
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* Ensure it spans above everything */
+}
+.preloader-logo-wrap {
+  width: min(80vw, 300px);
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#preloader-svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+#preloader-svg path,
+#preloader-svg text {
+  fill: transparent;
+  stroke: var(--cream);
+  stroke-width: 2;
+  /* GSAP will animate the dashoffset */
+}
+.preloader-status {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  color: var(--orange);
+  margin: 0;
+  animation: pulse-status 1.5s ease-in-out infinite alternate;
+}
+@keyframes pulse-status {
+  from { opacity: 0.4; }
+  to { opacity: 1; }
+}
+
+/* =========================================================================
    Header
    ========================================================================= */
 .site-header {

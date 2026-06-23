@@ -148,13 +148,15 @@
   }
 
   function splitTargets() {
+    // Keep the split for translations, but we won't trigger the cascade if the master timeline takes over.
     const rtl = document.documentElement.dir === 'rtl';
     const lines = document.querySelectorAll('.location-title .line');
     const units = [];
     lines.forEach((line) => {
       splitInto(line, rtl ? 'word' : 'char').forEach((u) => units.push(u));
     });
-    animateCascade(units);
+    // Return units instead of automatically animating
+    return units;
   }
 
   function animateCascade(units) {
@@ -337,12 +339,156 @@
   }
 
   /* ---------------------------------------------------------------------
+     9. GSAP Entry Master Timeline
+     --------------------------------------------------------------------- */
+  function playEntryChoreography(units) {
+    if (reduceMotion || !window.gsap) {
+      document.getElementById('preloader')?.remove();
+      animateCascade(units);
+      revealAll();
+      return;
+    }
+
+    const preloader = document.getElementById('preloader');
+    const svgText = document.querySelector('#preloader-svg text');
+    const statusText = document.querySelector('.preloader-status');
+
+    if (!preloader) {
+      animateCascade(units);
+      revealAll();
+      return;
+    }
+
+    const tl = gsap.timeline({
+      onComplete: () => {
+        preloader.remove();
+      }
+    });
+
+    // We manually simulate DrawSVG with dash offset
+    // Get text path length approximation, or set large value
+    // For simple text elements in SVG, stroke-dasharray and stroke-dashoffset can be used.
+    gsap.set(svgText, { strokeDasharray: 800, strokeDashoffset: 800 });
+    
+    // Initial hidden states for hero elements
+    const header = document.querySelector('.site-header');
+    const leftLines = document.querySelectorAll('.left-text .line, .left-text .address');
+    const centerLogo = document.querySelector('.hero-logo');
+    const sandwich = document.querySelector('.sandwich');
+    const cta = document.querySelector('.gradient-button');
+    const rightQuote = document.querySelector('.quote');
+    const rightRaj = document.querySelector('.raj-wrap');
+
+    // Remove data-reveal from GSAP handled elements to avoid conflicts
+    header?.removeAttribute('data-reveal');
+    centerLogo?.removeAttribute('data-reveal');
+    sandwich?.removeAttribute('data-reveal');
+
+    gsap.set(header, { y: -30, opacity: 0 });
+    gsap.set(leftLines, { x: -40, opacity: 0 });
+    gsap.set(centerLogo, { opacity: 0 });
+    gsap.set(sandwich, { scale: 0.85, opacity: 0 });
+    gsap.set(cta, { y: 40, opacity: 0 });
+    gsap.set(rightQuote, { opacity: 0 });
+    gsap.set(rightRaj, { y: 30, rotation: -5, opacity: 0 });
+
+    // Phase 1: Draw Logo
+    tl.to(svgText, {
+      strokeDashoffset: 0,
+      duration: 1.5,
+      ease: 'power2.inOut'
+    })
+    // Phase 2: Fade out preloader content & lift curtain
+    .to([svgText, statusText], {
+      opacity: 0,
+      duration: 0.3,
+      ease: 'power2.out'
+    }, '+=0.2')
+    .to(preloader, {
+      yPercent: -100,
+      duration: 1.2,
+      ease: 'power4.inOut'
+    }, 'curtain')
+    
+    // Phase 3: Staggered Hero Entry (starting halfway through curtain lift)
+    .add('hero-entry', 'curtain+=0.6')
+    // Header
+    .to(header, {
+      y: 0,
+      opacity: 1,
+      duration: 0.8,
+      ease: 'power3.out'
+    }, 'hero-entry')
+    // Left Text Stagger
+    .to(leftLines, {
+      x: 0,
+      opacity: 1,
+      duration: 0.8,
+      stagger: 0.1,
+      ease: 'back.out(1.2)'
+    }, 'hero-entry+=0.1')
+    // Center Hero
+    .to(centerLogo, {
+      opacity: 1,
+      duration: 1.2,
+      ease: 'power2.out'
+    }, 'hero-entry+=0.2')
+    .to(sandwich, {
+      scale: 1,
+      opacity: 1,
+      duration: 1,
+      ease: 'back.out(1.5)'
+    }, 'hero-entry+=0.3')
+    .to(cta, {
+      y: 0,
+      opacity: 1,
+      duration: 1,
+      ease: 'elastic.out(1, 0.75)'
+    }, 'hero-entry+=0.4')
+    // Right Quote / Raj
+    .to(rightQuote, {
+      opacity: 1,
+      duration: 0.8,
+      ease: 'power2.out'
+    }, 'hero-entry+=0.5')
+    .to(rightRaj, {
+      y: 0,
+      rotation: 0,
+      opacity: 1,
+      duration: 0.8,
+      ease: 'power3.out'
+    }, 'hero-entry+=0.6');
+
+    // Trigger remaining reveals (like menu stripes if in view)
+    tl.add(() => revealAll(), 'hero-entry+=0.5');
+  }
+
+  /* ---------------------------------------------------------------------
      Boot
      --------------------------------------------------------------------- */
   window.addEventListener('DOMContentLoaded', async () => {
     await initI18n();
-    splitTargets();
-    revealAll();
+    const units = splitTargets();
+    
+    // Check if we should run the sequence
+    const hasLoaded = sessionStorage.getItem('barbassi_loaded');
+    if (!hasLoaded) {
+      sessionStorage.setItem('barbassi_loaded', 'true');
+      playEntryChoreography(units);
+    } else {
+      // Immediately remove preloader and show normally
+      document.getElementById('preloader')?.remove();
+      const header = document.querySelector('.site-header');
+      const centerLogo = document.querySelector('.hero-logo');
+      const sandwich = document.querySelector('.sandwich');
+      if (header) header.style.opacity = 1;
+      if (centerLogo) centerLogo.style.opacity = 1;
+      if (sandwich) sandwich.style.opacity = 1;
+      
+      animateCascade(units);
+      revealAll();
+    }
+
     initParallax();
     initTilt();
     initGradientObserver();
