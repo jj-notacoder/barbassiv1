@@ -1,0 +1,26 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "menu": "Menu",
+    "location": "Location"
+  },
+  "hero": {
+    "line1": "Focaccia Kitchen",
+    "line2": "& Café",
+    "line3": "Port Zayed,",
+    "line4": "Abu Dhabi",
+    "address": "Lunch! Lunch! Lunch!"
+  },
+  "cta": "Discover More",
+  "quote": {
+    "text": "“Our food lives in the background, we are meant to create conversation.”",
+    "author": "— Raj"
+  },
+  "scroll": "Scroll",
+  "next": {
+    "kicker": "Mina Zayed · Abu Dhabi",
+    "title": "The Menu",
+    "sub": "Slow-proofed focaccia, layered by hand. Pull up a chair."
+  }
+}
