@@ -199,6 +199,66 @@
       </div>
     </section>
 
+    <!-- ═══════════════════════════ Section 5: The Editorial Menu ═══════════════════════════ -->
+    <section id="menu" class="menu-section">
+      <!-- GSAP Curtain -->
+      <div class="menu-curtain"></div>
+
+      <div class="menu-container">
+        <!-- Header -->
+        <div class="menu-header" data-menu-reveal>
+          <h2 class="menu-title">MENU</h2>
+          <p class="menu-subtitle">
+            Focaccia, coffee, sweets, and all the lunch that’s fit to eat.
+          </p>
+          
+          <!-- Category Tabs (Receipt Stickers) -->
+          <div class="menu-tabs">
+            <button class="menu-tab active" data-category="sandwiches">
+              <span class="tab-label">Sandwiches</span>
+              <span class="tab-indicator"></span>
+            </button>
+            <button class="menu-tab" data-category="sweets">
+              <span class="tab-label">Sweets</span>
+              <span class="tab-indicator"></span>
+            </button>
+            <button class="menu-tab" data-category="drinks">
+              <span class="tab-label">Drinks</span>
+              <span class="tab-indicator"></span>
+            </button>
+            <button class="menu-tab" data-category="coffee">
+              <span class="tab-label">Coffee</span>
+              <span class="tab-indicator"></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Desktop Split Layout (Grid) -->
+        <div class="menu-grid" data-menu-reveal>
+          
+          <!-- Left Column: Featured Image Card -->
+          <div class="menu-left">
+            <div class="menu-card-wrapper">
+              <div class="menu-card-bg"></div>
+              <img id="menu-featured-img" src="menu/close-up focaccia hero.jpg" alt="Featured Item" class="menu-featured-img" />
+              <!-- Torn Paper Strip -->
+              <div class="torn-paper-strip">
+                Fresh daily / Made for conversation
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Text List -->
+          <div class="menu-right">
+            <div id="menu-content-area" class="menu-content-area">
+              <!-- Content populated via JS -->
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+
     <!-- ═══════════════════════════ TRANSITION 3 ═══════════════════════════ -->
     <!-- Outro stripe transition (same GSAP/ScrollTrigger mechanism) -->
     <section class="stripe-transition" data-outro id="location">

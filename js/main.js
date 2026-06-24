@@ -550,6 +550,177 @@
   }
 
   /* ---------------------------------------------------------------------
+     14. Editorial Menu State & Interactions
+     --------------------------------------------------------------------- */
+  const menuData = {
+    sandwiches: {
+      image: 'menu/close-up focaccia hero.jpg',
+      items: [
+        {
+          name: 'Stuffed Focaccia Sandwich',
+          desc: 'Melted “Ham” & Cheese, Spicy Salami, Gabagool Mabooj, Turkey Club, Eggplant Parmigiano, Pizza Siciliana',
+          price: '59 DHS',
+          showRaj: true
+        }
+      ]
+    },
+    sweets: {
+      image: 'menu/cake.jpg',
+      items: [
+        {
+          name: 'Sweet Focaccia',
+          desc: 'Sweet Almond with Burnt Butter',
+          price: '25 DHS'
+        },
+        {
+          name: 'Sweets',
+          desc: 'Chocolate Chunk Cookie, Chocolate Walnut Meringue, Abby’s Raspberry Crumble, Hein’s Orange & Almond Cake',
+          price: ''
+        }
+      ]
+    },
+    drinks: {
+      image: 'menu/drink.jpg',
+      items: [
+        {
+          name: 'Drinks',
+          desc: 'Organic Italian Sodas, Wonderful Coconut Water, Bianco di Mandorla Almond Milk, Saicho Sparkling Tea',
+          price: ''
+        }
+      ]
+    },
+    coffee: {
+      image: 'menu/8624835-how-to-make-a-cappuccino-beauty-4x3-0301-13d55eaad60b42058f24369c292d4ccb.jpg',
+      items: [
+        {
+          name: 'Coffee',
+          desc: 'Espresso, Batch Brew, Americano, Cold Brew, Cortado, Cappuccino, Flat White, Spanish Latte',
+          price: ''
+        }
+      ]
+    }
+  };
+
+  const menuCliparts = [
+    'about content/07_espresso_cup.png',
+    'about content/06_tomato_basil.png',
+    'about content/02_focaccia_loaf.png'
+  ];
+
+  function renderMenuContent(category) {
+    const data = menuData[category];
+    if (!data) return;
+
+    const imgEl = document.getElementById('menu-featured-img');
+    const contentArea = document.getElementById('menu-content-area');
+    
+    if (!imgEl || !contentArea) return;
+
+    // Cross-fade out
+    gsap.to([imgEl, contentArea], {
+      opacity: 0,
+      y: 10,
+      duration: 0.3,
+      onComplete: () => {
+        imgEl.src = data.image;
+        
+        contentArea.innerHTML = '';
+        data.items.forEach((item, index) => {
+          let priceHtml = item.price ? `<span class="menu-price">${item.price}</span>` : '';
+          let rajHtml = item.showRaj ? `<img src="raj clipart.png" class="raj-sticker" alt="Raj Recommends" />` : '';
+          
+          let html = `
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <h3 class="menu-item-name">${item.name}</h3>
+                ${rajHtml}
+                ${priceHtml}
+              </div>
+              <p class="menu-item-desc">${item.desc}</p>
+            </div>
+          `;
+          
+          if (index < data.items.length) {
+            let clipartSrc = menuCliparts[index % menuCliparts.length];
+            html += `<img src="${clipartSrc}" class="rhythm-clipart" alt="" aria-hidden="true" />`;
+          }
+          
+          contentArea.innerHTML += html;
+        });
+
+        // Cross-fade in
+        gsap.to([imgEl, contentArea], {
+          opacity: 1,
+          y: 0,
+          duration: 0.4,
+          ease: 'power2.out'
+        });
+      }
+    });
+  }
+
+  function initMenuState() {
+    const tabs = document.querySelectorAll('.menu-tab');
+    if (!tabs.length) return;
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        tabs.forEach(t => t.classList.remove('active'));
+        const btn = e.currentTarget;
+        btn.classList.add('active');
+        renderMenuContent(btn.dataset.category);
+      });
+    });
+
+    // Initialize Sandwiches as active immediately without animation if possible, 
+    // but renderMenuContent uses GSAP which is fine.
+    renderMenuContent('sandwiches');
+  }
+
+  /* ---------------------------------------------------------------------
+     15. Menu Section Reveal (GSAP Curtain)
+     --------------------------------------------------------------------- */
+  function initMenuReveal() {
+    const section = document.getElementById('menu');
+    const curtain = document.querySelector('.menu-curtain');
+    if (!section || !curtain) return;
+
+    if (reduceMotion || !window.gsap || !window.ScrollTrigger) {
+      curtain.style.display = 'none';
+      return;
+    }
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 60%',
+      }
+    });
+
+    // Curtain Rise
+    tl.to(curtain, {
+      yPercent: -100,
+      duration: 1.2,
+      ease: 'power3.inOut'
+    });
+
+    // Stagger drop-in elements with spring-like easing
+    const reveals = section.querySelectorAll('[data-menu-reveal]');
+    tl.fromTo(reveals, {
+      opacity: 0,
+      y: 30
+    }, {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      stagger: 0.2,
+      ease: 'elastic.out(1, 0.75)'
+    }, '-=0.4');
+  }
+
+  /* ---------------------------------------------------------------------
      Boot
      --------------------------------------------------------------------- */
   window.addEventListener('DOMContentLoaded', async () => {
@@ -581,6 +752,8 @@
     initGradientObserver();
     initRajObserver();
     initAboutReveal();
+    initMenuState();
+    initMenuReveal();
     initHScroll();
     initStripeTransition();
 
