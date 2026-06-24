@@ -278,64 +278,113 @@
   /* ---------------------------------------------------------------------
      8. Stripe transition — build the hanging stripes, drop them in on scroll.
      --------------------------------------------------------------------- */
-  function buildStripes() {
-    const host = document.querySelector('.stripes');
-    if (!host) return [];
-    const count = Math.min(30, Math.max(12, Math.round(window.innerWidth / 52)));
-    host.innerHTML = '';
-    for (let i = 0; i < count; i++) {
-      const s = document.createElement('span');
-      s.className = 'stripe';
-      host.appendChild(s);
-    }
-    return Array.from(host.children);
-  }
-
-  let stripeTL = null;          // current timeline (so we can rebuild cleanly)
+  let stripeTLs = [];           // one timeline per .stripe-transition (rebuilt cleanly)
 
   function initStripeTransition() {
-    const stripes = buildStripes();
-    if (!stripes.length) return;
+    const sections = document.querySelectorAll('.stripe-transition');
+    if (!sections.length) return;
 
-    if (reduceMotion || !window.gsap || !window.ScrollTrigger) {
-      stripes.forEach((s) => (s.style.transform = 'translateY(0)'));
-      return;
-    }
+    const count = Math.min(30, Math.max(12, Math.round(window.innerWidth / 52)));
+    const useGsap = !reduceMotion && window.gsap && window.ScrollTrigger;
+    if (useGsap) gsap.registerPlugin(ScrollTrigger);
 
-    gsap.registerPlugin(ScrollTrigger);
+    // tear down previous timelines + triggers (handles resize rebuilds)
+    stripeTLs.forEach((tl) => { if (tl.scrollTrigger) tl.scrollTrigger.kill(); tl.kill(); });
+    stripeTLs = [];
 
-    // tear down any previous timeline + trigger (handles resize rebuilds)
-    if (stripeTL) {
-      if (stripeTL.scrollTrigger) stripeTL.scrollTrigger.kill();
-      stripeTL.kill();
-      stripeTL = null;
-    }
+    sections.forEach((section) => {
+      const host = section.querySelector('.stripes');
+      if (!host) return;
 
-    gsap.set(stripes, { yPercent: -101, filter: 'blur(8px)' });
-
-    stripeTL = gsap.timeline({
-      scrollTrigger: {
-        trigger: '.stripe-transition',
-        start: 'top 88%',
-        end: 'top 18%',
-        scrub: 0.6                 // scroll-linked → deterministic, cinematic
+      host.innerHTML = '';
+      const stripes = [];
+      for (let i = 0; i < count; i++) {
+        const s = document.createElement('span');
+        s.className = 'stripe';
+        host.appendChild(s);
+        stripes.push(s);
       }
+
+      if (!useGsap) { stripes.forEach((s) => (s.style.transform = 'translateY(0)')); return; }
+
+      gsap.set(stripes, { yPercent: -101, filter: 'blur(8px)' });
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: section, start: 'top 88%', end: 'top 18%', scrub: 0.6 }
+      });
+      tl.to(stripes, {
+        yPercent: 0, filter: 'blur(0px)', duration: 1.05,
+        ease: 'power3.out', stagger: { each: 0.05, from: 'start' }
+      });
+      // reveal this section's next-content as the curtain settles.
+      // fromTo (explicit end state) so a ScrollTrigger.refresh() — e.g. after
+      // the carousel pin re-measures — can't strand it at opacity 0.
+      const reveal = section.querySelector('.reveal-content');
+      if (reveal) {
+        tl.fromTo(reveal.children,
+          { y: 40, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out', stagger: 0.12 },
+          '-=0.3');
+      }
+      stripeTLs.push(tl);
     });
 
-    stripeTL
-      .to(stripes, {
-        yPercent: 0,
-        filter: 'blur(0px)',
-        duration: 1.05,
-        ease: 'power3.out',
-        stagger: { each: 0.05, from: 'start' }
-      })
-      // reveal the next-section content as the curtain settles
-      .from('.reveal-content > *', {
-        y: 40, opacity: 0, duration: 0.6, ease: 'power3.out', stagger: 0.12
-      }, '-=0.3');
+    if (useGsap) ScrollTrigger.refresh();
+  }
 
-    ScrollTrigger.refresh();
+  /* ---------------------------------------------------------------------
+     10. (Removed) Curved marquee
+     --------------------------------------------------------------------- */
+
+  /* ---------------------------------------------------------------------
+     11. EVERYDAY! — elegant fade and slide-up for the schedule container.
+     --------------------------------------------------------------------- */
+  function initEveryday() {
+    const scheduleContainer = document.querySelector('[data-schedule-fade]');
+    if (!scheduleContainer) return;
+
+    if (reduceMotion || !window.gsap || !window.ScrollTrigger) return;
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.from(scheduleContainer, {
+      scrollTrigger: { trigger: scheduleContainer, start: 'top 80%', toggleActions: 'play none none reverse' },
+      y: 20,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power2.out'
+    });
+  }
+
+  /* ---------------------------------------------------------------------
+     12. Horizontal scroll carousel — GSAP pins the section and scrubs the
+         track left by exactly its overflow, so vertical↔horizontal is 1:1.
+     --------------------------------------------------------------------- */
+  function initHScroll() {
+    const section = document.querySelector('[data-hscroll]');
+    const track = document.querySelector('[data-hscroll-track]');
+    if (!section || !track) return;
+
+    if (reduceMotion || !window.gsap || !window.ScrollTrigger) {
+      // fallback: a plain horizontally-scrollable strip
+      section.style.height = 'auto';
+      section.style.overflowX = 'auto';
+      return;
+    }
+    gsap.registerPlugin(ScrollTrigger);
+    const distance = () => Math.max(0, track.scrollWidth - window.innerWidth);
+
+    gsap.to(track, {
+      x: () => -distance(),
+      ease: 'none',
+      scrollTrigger: {
+        trigger: section,
+        start: 'top top',
+        end: () => '+=' + distance(),   // scroll length === horizontal overflow → exact match
+        scrub: 1,
+        pin: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true
+      }
+    });
   }
 
   /* ---------------------------------------------------------------------
@@ -491,8 +540,10 @@
 
     initParallax();
     initTilt();
+    initEveryday();
     initGradientObserver();
     initRajObserver();
+    initHScroll();
     initStripeTransition();
 
     // recompute trigger positions once fonts / images have settled
