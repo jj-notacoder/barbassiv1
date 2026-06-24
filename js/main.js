@@ -388,6 +388,43 @@
   }
 
   /* ---------------------------------------------------------------------
+     13. About Section Reveal — GSAP replacement for Framer Motion
+     --------------------------------------------------------------------- */
+  function initAboutReveal() {
+    const container = document.querySelector('.about-container');
+    if (!container) return;
+    
+    if (reduceMotion || !window.gsap || !window.ScrollTrigger) {
+      const elems = container.querySelectorAll('.about-heading, .about-text, .about-video-wrap');
+      elems.forEach(el => {
+        el.style.opacity = 1;
+        el.style.transform = 'none';
+      });
+      return;
+    }
+    
+    gsap.registerPlugin(ScrollTrigger);
+    
+    const heading = container.querySelector('.about-heading');
+    const textBlock = container.querySelector('.about-text');
+    const videoWrap = container.querySelector('.about-video-wrap');
+    
+    gsap.set([heading, textBlock], { opacity: 0, y: 40 });
+    gsap.set(videoWrap, { opacity: 0, scale: 0.95 });
+    
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: container,
+        start: 'top 75%'
+      }
+    });
+    
+    if (heading) tl.to(heading, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' });
+    if (textBlock) tl.to(textBlock, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.5');
+    if (videoWrap) tl.to(videoWrap, { opacity: 1, scale: 1, duration: 1, ease: 'power2.out' }, '-=0.5');
+  }
+
+  /* ---------------------------------------------------------------------
      9. GSAP Entry Master Timeline
      --------------------------------------------------------------------- */
   function playEntryChoreography(units) {
@@ -543,6 +580,7 @@
     initEveryday();
     initGradientObserver();
     initRajObserver();
+    initAboutReveal();
     initHScroll();
     initStripeTransition();
 

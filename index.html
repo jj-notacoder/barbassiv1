@@ -121,6 +121,42 @@
       <div class="time-text">11:00am – 2:00pm</div>
     </section>
 
+    <!-- ═══════════════════════════ Section 3: About ═══════════════════════════ -->
+    <section id="about" class="about-section">
+      <!-- Watermark Cliparts -->
+      <img src="about content/02_focaccia_loaf.png" alt="" class="watermark-clipart wm-1" aria-hidden="true" />
+      <img src="about content/05_olive_oil_and_salt.png" alt="" class="watermark-clipart wm-2" aria-hidden="true" />
+      <img src="about content/06_tomato_basil.png" alt="" class="watermark-clipart wm-3" aria-hidden="true" />
+      <img src="about content/07_espresso_cup.png" alt="" class="watermark-clipart wm-4" aria-hidden="true" />
+
+      <div class="about-container" data-about-reveal>
+        <h2 class="about-heading" data-about-elem>About Us<span class="text-orange">.</span></h2>
+        
+        <div class="about-grid">
+          <div class="about-text" data-about-elem>
+            <p>
+              <strong>Founded in 2019 and rooted in Abu Dhabi's Port Zayed</strong>, Barbassi is more than a focaccia kitchen and café, it's a gathering place built on family values of hospitality, creativity, and community.
+            </p>
+            <p>
+              Our menu centres on a tight selection of standout sandwiches, refreshing drinks you won't find anywhere else in town, and the kind of food that sparks a conversation rather than stealing one.
+            </p>
+            <p>
+              Because that's what we believe — food lives in the background, and the real magic is the people it brings together.
+            </p>
+          </div>
+          
+          <div class="about-video-wrap" data-about-elem>
+            <video class="about-video" src="about content/video.mp4" autoPlay loop muted playsInline></video>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Outro stripe transition for About Section -->
+    <section class="stripe-transition" aria-hidden="true">
+      <div class="stripes"></div>
+    </section>
+
     <!-- 2.3 — Horizontal scroll carousel (GSAP pin + scrub) -->
     <div class="hscroll-wrapper relative">
       <svg class="hscroll-wave absolute inset-0 z-0" preserveAspectRatio="none" viewBox="0 0 1440 800" xmlns="http://www.w3.org/2000/svg">
@@ -537,9 +573,9 @@
 
     const items = [
       { label: "Home", href: "#" },
-      { label: "About", href: "#" },
+      { label: "About", href: "#about" },
       { label: "Menu", href: "#" },
-      { label: "Location", href: "#" },
+      { label: "Location", href: "#location" },
     ];
 
     const root = ReactDOM.createRoot(document.getElementById('gooey-nav-container'));
