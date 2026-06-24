@@ -285,7 +285,9 @@
 
   <!-- GooeyNav React App (progressive enhancement — replaces the static fallback
        nav inside #gooey-nav-container when it can mount) -->
-  <script type="text/babel">
+  <script type="text/babel" data-type="module" data-presets="react,env">
+    /** @jsx React.createElement */
+    /** @jsxFrag React.Fragment */
     const { useState, useEffect, useRef } = React;
 
     const GooeyNav = ({
