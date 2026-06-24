@@ -584,6 +584,10 @@
     initHScroll();
     initStripeTransition();
 
+    // Ensure the (muted) About video plays even when browser autoplay is throttled
+    const aboutVid = document.querySelector('.about-video');
+    if (aboutVid) { aboutVid.muted = true; aboutVid.play?.().catch(() => {}); }
+
     // recompute trigger positions once fonts / images have settled
     window.addEventListener('load', () => {
       if (window.ScrollTrigger) ScrollTrigger.refresh();

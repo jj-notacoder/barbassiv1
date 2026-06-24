@@ -118,7 +118,7 @@ html[dir="rtl"] .address { font-family: var(--font-ar); }
 .site-header {
   position: fixed;
   top: 0; left: 0; right: 0;
-  z-index: 100;
+  z-index: 9999;            /* ultra-high — sits above the grain overlay (z 9999, earlier in DOM) */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -656,48 +656,45 @@ html[dir="rtl"] .nav-link::after { transform-origin: right; }
   font-style: italic;
 }
 
-.about-video-wrap {
+/* Glassmorphic video card */
+.about-video-card {
+  width: 100%;
   position: relative;
-  border-radius: 1.5rem;
-  overflow: hidden;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  aspect-ratio: 4 / 5;
   z-index: 10;
+  padding: 1rem;                              /* p-4 */
+  border-radius: 2.5rem;                      /* rounded-[2.5rem] */
+  background: rgba(255, 255, 255, 0.1);       /* bg-white/10 */
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);                /* backdrop-blur-xl */
+  border: 1px solid rgba(255, 255, 255, 0.2);/* border-white/20 */
+  box-shadow: 0 8px 32px 0 rgba(26, 29, 45, 0.15);
 }
-
+.about-video-inner {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: 1.5rem;                      /* rounded-3xl */
+  overflow: hidden;
+}
 .about-video {
   width: 100%;
   height: 100%;
   display: block;
   object-fit: cover;
+  transition: transform 0.7s var(--ease-out);
 }
+.about-video:hover { transform: scale(1.05); }
 
-/* Watermark Cliparts */
+/* Floating clipart watermarks — faint, decorative, drifting */
 .watermark-clipart {
   position: absolute;
   z-index: 0;
-  width: 6rem;
-  opacity: 0.1;
-  filter: brightness(0);
-  cursor: pointer;
-  transition: all 0.3s var(--ease-out);
+  opacity: 0.07;
+  pointer-events: none;
 }
-
-.watermark-clipart:hover {
-  opacity: 0.3;
-  transform: scale(1.25) !important;
-}
-
-/* Positioning and Floating Keyframes */
-.wm-1 { top: 2.5rem; left: 2.5rem; animation: float-wm 4s ease-in-out infinite alternate; }
-.wm-2 { bottom: 5rem; right: 2.5rem; animation: float-wm 5.5s ease-in-out infinite alternate-reverse; }
-.wm-3 { top: 15rem; right: 5rem; animation: float-wm 6s ease-in-out infinite alternate; }
-.wm-4 { bottom: 10rem; left: 5rem; animation: float-wm 4.8s ease-in-out infinite alternate-reverse; }
-
-@keyframes float-wm {
-  0% { transform: translateY(10px); }
-  100% { transform: translateY(-10px); }
-}
+.wm-1 { top: 5rem;    left: 2.5rem;  width: 8rem; animation: float 6s ease-in-out infinite; }          /* 02 focaccia loaf */
+.wm-2 { bottom: 8rem; left: 25%;     width: 7rem; animation: float 5s ease-in-out infinite reverse; }  /* 05 olive oil + salt */
+.wm-3 { top: 33%;     right: 2.5rem; width: 9rem; animation: float 7s ease-in-out infinite; }          /* 06 tomato basil */
+.wm-4 { bottom: 5rem; right: 25%;    width: 6rem; animation: float 4s ease-in-out infinite; }          /* 07 espresso cup */
 
 /* =========================================================================
    Reveal-on-load defaults (JS adds .is-in)

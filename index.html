@@ -14,7 +14,7 @@
     rel="stylesheet"
   />
 
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/styles.css?v=2" />
 </head>
 <body>
   <!-- =========================================================================
@@ -40,7 +40,15 @@
     </a>
 
     <div class="flex-1 flex justify-center items-center z-50">
-      <div id="gooey-nav-container"></div>
+      <div id="gooey-nav-container">
+        <!-- Static fallback nav: always visible; the GooeyNav React island
+             replaces it when it can mount (progressive enhancement). -->
+        <nav class="main-nav" aria-label="Primary">
+          <a href="#about"    class="nav-link" data-i18n="nav.about">About</a>
+          <a href="#menu"     class="nav-link" data-i18n="nav.menu">Menu</a>
+          <a href="#location" class="nav-link" data-i18n="nav.location">Location</a>
+        </nav>
+      </div>
     </div>
 
     <div class="header-actions">
@@ -126,11 +134,8 @@
       <div class="time-text">11:00am – 2:00pm</div>
     </section>
 
-    <!-- ═══════════════════════════ Section 3: Horizontal Carousel ═══════════════════════════ -->
+    <!-- ═══════════════════════════ Section 3: Horizontal Carousel (on cream) ═══════════════════════════ -->
     <div class="hscroll-wrapper relative">
-      <svg class="hscroll-wave absolute inset-0 z-0" preserveAspectRatio="none" viewBox="0 0 1440 800" xmlns="http://www.w3.org/2000/svg">
-        <path fill="#1A1D2D" d="M0,0 Q360,200 720,50 T1440,0 L1440,800 L0,800 Z" />
-      </svg>
       <section class="hscroll section-2 relative z-10" data-hscroll aria-label="Inside Barbassi">
       <div class="hscroll-track" data-hscroll-track>
         <article class="hcard"><div class="hcard-img"><img src="carousel/image 1.jpg"  alt="Barbassi — gallery 1"  loading="lazy" /></div></article>
@@ -154,11 +159,11 @@
 
     <!-- ═══════════════════════════ Section 4: About Us ═══════════════════════════ -->
     <section id="about" class="about-section">
-      <!-- Watermark Cliparts -->
-      <img src="about content/01_stacked_sandwich.png" alt="" class="watermark-clipart wm-1" aria-hidden="true" />
-      <img src="about content/04_chef_knife.png" alt="" class="watermark-clipart wm-2" aria-hidden="true" />
-      <img src="about content/07_espresso_cup.png" alt="" class="watermark-clipart wm-3" aria-hidden="true" />
-      <img src="about content/10_menu_receipt.png" alt="" class="watermark-clipart wm-4" aria-hidden="true" />
+      <!-- Floating clipart watermarks (absolute to the section) -->
+      <img src="/about content/02_focaccia_loaf.png"      alt="" class="watermark-clipart wm-1" aria-hidden="true" />
+      <img src="/about content/05_olive_oil_and_salt.png" alt="" class="watermark-clipart wm-2" aria-hidden="true" />
+      <img src="/about content/06_tomato_basil.png"       alt="" class="watermark-clipart wm-3" aria-hidden="true" />
+      <img src="/about content/07_espresso_cup.png"       alt="" class="watermark-clipart wm-4" aria-hidden="true" />
 
       <div class="about-container" data-about-reveal>
         <h2 class="about-heading" data-about-elem>About Us</h2>
@@ -176,8 +181,11 @@
             </p>
           </div>
           
-          <div class="about-video-wrap" data-about-elem>
-            <video class="about-video" src="about content/video.mp4" autoPlay loop muted playsInline></video>
+          <!-- Right Column: Video in a glassmorphic card -->
+          <div class="about-video-card" data-about-elem>
+            <div class="about-video-inner">
+              <video class="about-video" src="/about content/video.mp4" autoplay loop muted playsinline></video>
+            </div>
           </div>
         </div>
       </div>
@@ -199,14 +207,15 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://unpkg.com/i18next@23.11.5/i18next.min.js"></script>
-  <script src="js/main.js?v=6"></script>
+  <script src="js/main.js?v=7"></script>
 
   <!-- React & Babel Standalone CDNs -->
   <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-  <!-- GooeyNav React App -->
+  <!-- GooeyNav React App (progressive enhancement — replaces the static fallback
+       nav inside #gooey-nav-container when it can mount) -->
   <script type="text/babel">
     const { useState, useEffect, useRef } = React;
 
@@ -593,7 +602,7 @@
         initialActiveIndex={0}
         animationTime={600}
         timeVariance={300}
-        colors={[1, 2, 3, 1, 2, 3, 1, 4]} 
+        colors={[1, 2, 3, 1, 2, 3, 1, 4]}
       />
     );
   </script>
