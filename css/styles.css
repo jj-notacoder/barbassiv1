@@ -119,15 +119,22 @@ html[dir="rtl"] .address { font-family: var(--font-ar); }
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 1rem;
-  padding: clamp(0.9rem, 2vw, 1.4rem) var(--pad);
+  width: 100%;
+  padding: 1rem 2rem; /* py-4 px-8 equivalent */
   background: linear-gradient(180deg, rgba(253,251,250,0.92) 0%, rgba(253,251,250,0) 100%);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
+
+/* Utilities for layout/header */
+.flex-1 { flex: 1 1 0%; }
+.flex { display: flex; }
+.justify-center { justify-content: center; }
+.items-center { align-items: center; }
+.z-50 { z-index: 50; }
 
 .brand { justify-self: start; display: inline-flex; }
 .brand-logo {
@@ -205,12 +212,12 @@ html[dir="rtl"] .nav-link::after { transform-origin: right; }
    Hero grid
    ========================================================================= */
 .hero-grid {
-  min-height: 100vh;
+  min-height: auto;
   display: grid;
   grid-template-columns: 1fr 1.35fr 1fr;
   align-items: center;
   gap: clamp(1rem, 3vw, 3rem);
-  padding: clamp(7rem, 12vh, 10rem) var(--pad) clamp(3rem, 6vh, 5rem);
+  padding: clamp(7rem, 12vh, 10rem) var(--pad) 2rem; /* reduced bottom padding */
 }
 
 /* ── Left: location title ─────────────────────────────────────────────── */
@@ -498,8 +505,8 @@ html[dir="rtl"] .nav-link::after { transform-origin: right; }
 
 /* 2.1 — Straight Marquee */
 .marquee-section {
-  margin-top: 8rem;
-  padding-block: 4rem;
+  margin-top: 2rem; /* significantly reduced from 8rem for tighter layout (60-80px total gap) */
+  padding-block: 2.5rem;
   overflow: hidden;
   white-space: nowrap;
 }
@@ -612,14 +619,18 @@ html[dir="rtl"] .nav-link::after { transform-origin: right; }
   .right-text { order: 3; }
   .location-title { font-size: clamp(2rem, 8vw, 3rem); }
   .address { margin-inline: auto; }
-  .main-nav { display: none; }
-  .site-header { grid-template-columns: auto 1fr; }
+  .site-header { justify-content: space-between; }
   .header-actions { justify-self: end; }
   .sandwich-wrap { margin-top: -2rem; }
+  
+  /* Hide GooeyNav wrapper on mobile/tablet */
+  .flex-1.flex.justify-center.items-center.z-50 {
+    display: none;
+  }
 
-  /* Section 2 */
-  .marquee-section { margin-top: 5rem; padding-block: 2.5rem; }
-  .schedule-section { margin: 5rem auto; }
+  /* Section 2 spacing on mobile */
+  .marquee-section { margin-top: 2rem; padding-block: 2rem; }
+  .schedule-section { margin: 4rem auto; }
   .hcard-img { height: min(52vh, 420px); }
   .hscroll-track { gap: 1.25rem; }
 }
