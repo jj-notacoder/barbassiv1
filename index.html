@@ -14,7 +14,7 @@
     rel="stylesheet"
   />
 
-  <link rel="stylesheet" href="css/styles.css?v=2" />
+  <link rel="stylesheet" href="css/styles.css?v=3" />
 </head>
 <body>
   <!-- =========================================================================
@@ -134,9 +134,13 @@
       <div class="time-text">11:00am – 2:00pm</div>
     </section>
 
-    <!-- ═══════════════════════════ Section 3: Horizontal Carousel (on cream) ═══════════════════════════ -->
+    <!-- ═══════════════════════════ Section 3: Horizontal Carousel (navy, cream splash) ═══════════════════════════ -->
     <div class="hscroll-wrapper relative">
-      <section class="hscroll section-2 relative z-10" data-hscroll aria-label="Inside Barbassi">
+      <section class="hscroll section-2 relative" data-hscroll aria-label="Inside Barbassi">
+        <!-- Cream organic splash behind the cards (z-0); cards sit above (z-10) -->
+        <svg class="hscroll-splash" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+          <path fill="#FDFBEE" d="M812 110c64 38 121 96 138 168 16 71-9 156-69 206-61 50-158 65-256 60-99-6-198-31-272-86C279 404 230 320 252 250c22-71 116-117 207-149 92-32 181-49 254-25 33 11 66 22 99 34z" />
+        </svg>
       <div class="hscroll-track" data-hscroll-track>
         <article class="hcard"><div class="hcard-img"><img src="carousel/image 1.jpg"  alt="Barbassi — gallery 1"  loading="lazy" /></div></article>
         <article class="hcard"><div class="hcard-img"><img src="carousel/image 2.jpg"  alt="Barbassi — gallery 2"  loading="lazy" /></div></article>
@@ -159,11 +163,17 @@
 
     <!-- ═══════════════════════════ Section 4: About Us ═══════════════════════════ -->
     <section id="about" class="about-section">
-      <!-- Floating clipart watermarks (absolute to the section) -->
-      <img src="/about content/02_focaccia_loaf.png"      alt="" class="watermark-clipart wm-1" aria-hidden="true" />
-      <img src="/about content/05_olive_oil_and_salt.png" alt="" class="watermark-clipart wm-2" aria-hidden="true" />
-      <img src="/about content/06_tomato_basil.png"       alt="" class="watermark-clipart wm-3" aria-hidden="true" />
-      <img src="/about content/07_espresso_cup.png"       alt="" class="watermark-clipart wm-4" aria-hidden="true" />
+      <!-- Floating background texture — all 10 cliparts, high visibility -->
+      <img src="/about content/01_stacked_sandwich.png"     alt="" class="watermark-clipart wm-1"  aria-hidden="true" />
+      <img src="/about content/02_focaccia_loaf.png"        alt="" class="watermark-clipart wm-2"  aria-hidden="true" />
+      <img src="/about content/03_striped_takeaway_bag.png" alt="" class="watermark-clipart wm-3"  aria-hidden="true" />
+      <img src="/about content/04_chef_knife.png"           alt="" class="watermark-clipart wm-4"  aria-hidden="true" />
+      <img src="/about content/05_olive_oil_and_salt.png"   alt="" class="watermark-clipart wm-5"  aria-hidden="true" />
+      <img src="/about content/06_tomato_basil.png"         alt="" class="watermark-clipart wm-6"  aria-hidden="true" />
+      <img src="/about content/07_espresso_cup.png"         alt="" class="watermark-clipart wm-7"  aria-hidden="true" />
+      <img src="/about content/08_bread_bag_stripes.png"    alt="" class="watermark-clipart wm-8"  aria-hidden="true" />
+      <img src="/about content/09_barbassi_storefront.png"  alt="" class="watermark-clipart wm-9"  aria-hidden="true" />
+      <img src="/about content/10_menu_receipt.png"         alt="" class="watermark-clipart wm-10" aria-hidden="true" />
 
       <div class="about-container" data-about-reveal>
         <h2 class="about-heading" data-about-elem>About Us</h2>
@@ -181,11 +191,9 @@
             </p>
           </div>
           
-          <!-- Right Column: Video in a glassmorphic card -->
+          <!-- Right Column: Instagram-reel video (9:16), width-capped -->
           <div class="about-video-card" data-about-elem>
-            <div class="about-video-inner">
-              <video class="about-video" src="/about content/video.mp4" autoplay loop muted playsinline></video>
-            </div>
+            <video class="about-video" src="/about content/video.mp4" autoplay loop muted playsinline></video>
           </div>
         </div>
       </div>
@@ -208,6 +216,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://unpkg.com/i18next@23.11.5/i18next.min.js"></script>
   <script src="js/main.js?v=7"></script>
+  <script src="js/splash-cursor.js?v=1"></script>
 
   <!-- React & Babel Standalone CDNs -->
   <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>

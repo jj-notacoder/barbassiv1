@@ -435,6 +435,16 @@ html[dir="rtl"] .nav-link::after { transform-origin: right; }
   justify-content: center;
   overflow: hidden;
 }
+/* Empty "divider" transitions (T1/T2): slim cream band with the dropping
+   stripes — no giant navy void. The outro [data-outro] keeps full navy. */
+.stripe-transition[aria-hidden="true"] {
+  min-height: 0;
+  height: 46vh;
+  background: var(--cream);
+}
+.stripe-transition[aria-hidden="true"] .stripes {
+  height: 100%;
+}
 /* hanging navy stripes on a cream band — the signature pattern */
 .stripes {
   position: absolute;
@@ -557,21 +567,31 @@ html[dir="rtl"] .nav-link::after { transform-origin: right; }
 
 /* 2.3 — Horizontal scroll carousel */
 .hscroll-wrapper {
-  background-color: var(--cream);
+  background-color: var(--navy);     /* inverted — dark navy section */
   overflow: hidden;
 }
-.hscroll-wave {
-  width: 100%;
-  height: 100%;
+/* Cream organic splash behind the scrolling cards */
+.hscroll-splash {
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  width: 94%;
+  height: 88%;
+  transform: translate(-50%, -50%);
   pointer-events: none;
+  filter: drop-shadow(0 30px 70px rgba(0, 0, 0, 0.3));
 }
 .hscroll {
+  position: relative;
   height: 100vh;
   display: flex;
   align-items: center;
   overflow: hidden;
 }
 .hscroll-track {
+  position: relative;
+  z-index: 10;                       /* above the cream splash */
   display: flex;
   gap: 2rem;                         /* gap-8 */
   padding-inline: clamp(1.5rem, 6vw, 6rem);
@@ -656,45 +676,42 @@ html[dir="rtl"] .nav-link::after { transform-origin: right; }
   font-style: italic;
 }
 
-/* Glassmorphic video card */
+/* Instagram-reel video (9:16), width-capped so it isn't huge on desktop */
 .about-video-card {
   width: 100%;
+  max-width: 400px;
+  margin: 0 auto;                            /* mx-auto */
+  aspect-ratio: 9 / 16;                      /* full reel, no clipping */
+  border-radius: 1.5rem;                     /* rounded-3xl */
+  overflow: hidden;
   position: relative;
   z-index: 10;
-  padding: 1rem;                              /* p-4 */
-  border-radius: 2.5rem;                      /* rounded-[2.5rem] */
-  background: rgba(255, 255, 255, 0.1);       /* bg-white/10 */
-  -webkit-backdrop-filter: blur(24px);
-  backdrop-filter: blur(24px);                /* backdrop-blur-xl */
-  border: 1px solid rgba(255, 255, 255, 0.2);/* border-white/20 */
   box-shadow: 0 8px 32px 0 rgba(26, 29, 45, 0.15);
-}
-.about-video-inner {
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  border-radius: 1.5rem;                      /* rounded-3xl */
-  overflow: hidden;
+  border: 1px solid rgba(26, 29, 45, 0.1);   /* border-[#1A1D2D]/10 */
 }
 .about-video {
   width: 100%;
   height: 100%;
   display: block;
   object-fit: cover;
-  transition: transform 0.7s var(--ease-out);
 }
-.about-video:hover { transform: scale(1.05); }
 
-/* Floating clipart watermarks — faint, decorative, drifting */
+/* Floating background texture — all 10 cliparts, prominent + drifting */
 .watermark-clipart {
   position: absolute;
   z-index: 0;
-  opacity: 0.07;
   pointer-events: none;
 }
-.wm-1 { top: 5rem;    left: 2.5rem;  width: 8rem; animation: float 6s ease-in-out infinite; }          /* 02 focaccia loaf */
-.wm-2 { bottom: 8rem; left: 25%;     width: 7rem; animation: float 5s ease-in-out infinite reverse; }  /* 05 olive oil + salt */
-.wm-3 { top: 33%;     right: 2.5rem; width: 9rem; animation: float 7s ease-in-out infinite; }          /* 06 tomato basil */
-.wm-4 { bottom: 5rem; right: 25%;    width: 6rem; animation: float 4s ease-in-out infinite; }          /* 07 espresso cup */
+.wm-1  { top: 5%;     left: 5%;    width: 8rem;  opacity: 0.30; animation: float 6s ease-in-out infinite; }          /* 01 stacked sandwich */
+.wm-2  { top: 15%;    right: 10%;  width: 7rem;  opacity: 0.35; animation: float 5s ease-in-out infinite reverse; }  /* 02 focaccia loaf */
+.wm-3  { top: 35%;    left: 2%;    width: 6rem;  opacity: 0.30; animation: float 7s ease-in-out infinite; }          /* 03 takeaway bag */
+.wm-4  { top: 40%;    right: 5%;   width: 9rem;  opacity: 0.30; animation: float 4s ease-in-out infinite; }          /* 04 chef knife */
+.wm-5  { top: 55%;    left: 12%;   width: 5rem;  opacity: 0.40; animation: float 6s ease-in-out infinite reverse; }  /* 05 olive oil + salt */
+.wm-6  { top: 65%;    right: 15%;  width: 8rem;  opacity: 0.35; animation: float 5s ease-in-out infinite; }          /* 06 tomato basil */
+.wm-7  { bottom: 20%; left: 8%;    width: 6rem;  opacity: 0.30; animation: float 8s ease-in-out infinite; }          /* 07 espresso cup */
+.wm-8  { bottom: 15%; right: 8%;   width: 7rem;  opacity: 0.30; animation: float 5s ease-in-out infinite reverse; }  /* 08 bread bag stripes */
+.wm-9  { bottom: 2%;  left: 40%;   width: 10rem; opacity: 0.25; animation: float 7s ease-in-out infinite; }          /* 09 storefront */
+.wm-10 { top: 2%;     left: 45%;   width: 6rem;  opacity: 0.30; animation: float 6s ease-in-out infinite reverse; } /* 10 menu receipt */
 
 /* =========================================================================
    Reveal-on-load defaults (JS adds .is-in)
