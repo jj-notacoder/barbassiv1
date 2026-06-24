@@ -106,6 +106,11 @@
       </div>
     </section>
 
+    <!-- ═══════════════════════════ TRANSITION 1 ═══════════════════════════ -->
+    <section class="stripe-transition" aria-hidden="true">
+      <div class="stripes"></div>
+    </section>
+
     <!-- ═══════════════════════════ Section 2 ═══════════════════════════ -->
 
     <!-- 2.1 — Straight Marquee -->
@@ -121,16 +126,42 @@
       <div class="time-text">11:00am – 2:00pm</div>
     </section>
 
-    <!-- ═══════════════════════════ Section 3: About ═══════════════════════════ -->
+    <!-- ═══════════════════════════ Section 3: Horizontal Carousel ═══════════════════════════ -->
+    <div class="hscroll-wrapper relative">
+      <svg class="hscroll-wave absolute inset-0 z-0" preserveAspectRatio="none" viewBox="0 0 1440 800" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#1A1D2D" d="M0,0 Q360,200 720,50 T1440,0 L1440,800 L0,800 Z" />
+      </svg>
+      <section class="hscroll section-2 relative z-10" data-hscroll aria-label="Inside Barbassi">
+      <div class="hscroll-track" data-hscroll-track>
+        <article class="hcard"><div class="hcard-img"><img src="carousel/image 1.jpg"  alt="Barbassi — gallery 1"  loading="lazy" /></div></article>
+        <article class="hcard"><div class="hcard-img"><img src="carousel/image 2.jpg"  alt="Barbassi — gallery 2"  loading="lazy" /></div></article>
+        <article class="hcard"><div class="hcard-img"><img src="carousel/image 3.jpg"  alt="Barbassi — gallery 3"  loading="lazy" /></div></article>
+        <article class="hcard"><div class="hcard-img"><img src="carousel/image 4.jpg"  alt="Barbassi — gallery 4"  loading="lazy" /></div></article>
+        <article class="hcard"><div class="hcard-img"><img src="carousel/image 5.jpg"  alt="Barbassi — gallery 5"  loading="lazy" /></div></article>
+        <article class="hcard"><div class="hcard-img"><img src="carousel/image 6.jpg"  alt="Barbassi — gallery 6"  loading="lazy" /></div></article>
+        <article class="hcard"><div class="hcard-img"><img src="carousel/image 7.jpg"  alt="Barbassi — gallery 7"  loading="lazy" /></div></article>
+        <article class="hcard"><div class="hcard-img"><img src="carousel/image 8.jpg"  alt="Barbassi — gallery 8"  loading="lazy" /></div></article>
+        <article class="hcard"><div class="hcard-img"><img src="carousel/image 9.jpg"  alt="Barbassi — gallery 9"  loading="lazy" /></div></article>
+        <article class="hcard"><div class="hcard-img"><img src="carousel/image 10.jpg" alt="Barbassi — gallery 10" loading="lazy" /></div></article>
+      </div>
+      </section>
+    </div>
+
+    <!-- ═══════════════════════════ TRANSITION 2 ═══════════════════════════ -->
+    <section class="stripe-transition" aria-hidden="true">
+      <div class="stripes"></div>
+    </section>
+
+    <!-- ═══════════════════════════ Section 4: About Us ═══════════════════════════ -->
     <section id="about" class="about-section">
       <!-- Watermark Cliparts -->
-      <img src="about content/02_focaccia_loaf.png" alt="" class="watermark-clipart wm-1" aria-hidden="true" />
-      <img src="about content/05_olive_oil_and_salt.png" alt="" class="watermark-clipart wm-2" aria-hidden="true" />
-      <img src="about content/06_tomato_basil.png" alt="" class="watermark-clipart wm-3" aria-hidden="true" />
-      <img src="about content/07_espresso_cup.png" alt="" class="watermark-clipart wm-4" aria-hidden="true" />
+      <img src="about content/01_stacked_sandwich.png" alt="" class="watermark-clipart wm-1" aria-hidden="true" />
+      <img src="about content/04_chef_knife.png" alt="" class="watermark-clipart wm-2" aria-hidden="true" />
+      <img src="about content/07_espresso_cup.png" alt="" class="watermark-clipart wm-3" aria-hidden="true" />
+      <img src="about content/10_menu_receipt.png" alt="" class="watermark-clipart wm-4" aria-hidden="true" />
 
       <div class="about-container" data-about-reveal>
-        <h2 class="about-heading" data-about-elem>About Us<span class="text-orange">.</span></h2>
+        <h2 class="about-heading" data-about-elem>About Us</h2>
         
         <div class="about-grid">
           <div class="about-text" data-about-elem>
@@ -152,33 +183,8 @@
       </div>
     </section>
 
-    <!-- Outro stripe transition for About Section -->
-    <section class="stripe-transition" aria-hidden="true">
-      <div class="stripes"></div>
-    </section>
-
-    <!-- 2.3 — Horizontal scroll carousel (GSAP pin + scrub) -->
-    <div class="hscroll-wrapper relative">
-      <svg class="hscroll-wave absolute inset-0 z-0" preserveAspectRatio="none" viewBox="0 0 1440 800" xmlns="http://www.w3.org/2000/svg">
-        <path fill="#1A1D2D" d="M0,0 Q360,200 720,50 T1440,0 L1440,800 L0,800 Z" />
-      </svg>
-      <section class="hscroll section-2 relative z-10" data-hscroll aria-label="Inside Barbassi">
-      <div class="hscroll-track" data-hscroll-track>
-        <article class="hcard"><div class="hcard-img"><img src="carousel/image 1.jpg"  alt="Barbassi — gallery 1"  loading="lazy" /></div></article>
-        <article class="hcard"><div class="hcard-img"><img src="carousel/image 2.jpg"  alt="Barbassi — gallery 2"  loading="lazy" /></div></article>
-        <article class="hcard"><div class="hcard-img"><img src="carousel/image 3.jpg"  alt="Barbassi — gallery 3"  loading="lazy" /></div></article>
-        <article class="hcard"><div class="hcard-img"><img src="carousel/image 4.jpg"  alt="Barbassi — gallery 4"  loading="lazy" /></div></article>
-        <article class="hcard"><div class="hcard-img"><img src="carousel/image 5.jpg"  alt="Barbassi — gallery 5"  loading="lazy" /></div></article>
-        <article class="hcard"><div class="hcard-img"><img src="carousel/image 6.jpg"  alt="Barbassi — gallery 6"  loading="lazy" /></div></article>
-        <article class="hcard"><div class="hcard-img"><img src="carousel/image 7.jpg"  alt="Barbassi — gallery 7"  loading="lazy" /></div></article>
-        <article class="hcard"><div class="hcard-img"><img src="carousel/image 8.jpg"  alt="Barbassi — gallery 8"  loading="lazy" /></div></article>
-        <article class="hcard"><div class="hcard-img"><img src="carousel/image 9.jpg"  alt="Barbassi — gallery 9"  loading="lazy" /></div></article>
-        <article class="hcard"><div class="hcard-img"><img src="carousel/image 10.jpg" alt="Barbassi — gallery 10" loading="lazy" /></div></article>
-      </div>
-      </section>
-    </div>
-
-    <!-- 2.4 — Outro stripe transition (same GSAP/ScrollTrigger mechanism as after the hero) -->
+    <!-- ═══════════════════════════ TRANSITION 3 ═══════════════════════════ -->
+    <!-- Outro stripe transition (same GSAP/ScrollTrigger mechanism) -->
     <section class="stripe-transition" data-outro id="location">
       <div class="stripes" aria-hidden="true"></div>
       <div class="reveal-content">
@@ -572,9 +578,8 @@
     };
 
     const items = [
-      { label: "Home", href: "#" },
       { label: "About", href: "#about" },
-      { label: "Menu", href: "#" },
+      { label: "Menu", href: "#menu" },
       { label: "Location", href: "#location" },
     ];
 
